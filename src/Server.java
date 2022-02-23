@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Server {
     public static void main(String[] args) throws IOException {
@@ -54,29 +53,75 @@ public class Server {
                         + "<!DOCTYPE html>"
                         + "<html>"
                         + "<head>"
-                        + prueba.main("London")
                         + "<meta charset=\"UTF-8\">"
                         + "<title>Clima</title>\n"
                         + "</head>"
                         + "<body>"
-                        + "Clima siuuu"
+                        + "\n"
+                        + "Type\tDescription\n"
+                        + "<input type=\"text\" name=\"coun\">\n"
+                        + "<button class=\"button\" onclick=\"inputValues()\">Result</button>"
+                        + "<div id=\"resultt\">\n" +
+                        "                <p class=\"example\" ></p>\n" +
+                        "            </div>"
+                        + "<script>"
+                        + "let numberc;\n" +
+                        "let res1;\n" +
+                        "let res2;\n" +
+                        "let res = \"\";"
+                        + "function inputValues() {\n" +
+                        "    numberc = document.getElementsByName(\"coun\")[0].value;\n" +
+                        "    const url = \"api.openweathermap.org/data/2.5/find?q=\"+numberc+\"&appid=6d5b39516045f1a21d068ac4cbe0600b\";\n"
+                        + "    getapi(url);\n" +
+                        "}"
+                        + "async function getapi (url) {"
+                        + "res1=\"\";"
+                        + "alert(url);"
+                        + "try {\n" +
+                        "            const response = await fetch(url, {method: 'GET', headers: {'Content-Type': 'application/json'}});\n" +
+                        "            let data = await response.json();" +
+                        "res1 = data;" +
+                        "\n" +
+                        "        }catch (e) {\n" +
+                        "            console.log(e);\n" +
+                        "        }\n" +
+                        "    var x = document.getElementById(\"resultt\");\n"
+                        + "x.querySelector(\".example\").innerHTML = (res1);"
+                        + "}\n"
+                        + "</script>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+            }else if(file.startsWith("/Consulta?ciudad=London")) {
+                System.out.println("siuuuuuuuuuuuuuuuuuu");
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>"
+                        + "<html>"
+                        + "<head>"
+                        + "<meta charset=\"UTF-8\">"
+                        + "<title>Clima</title>\n"
+                        + "</head>"
+                        + "<body>"
+                        + "cONSULTA LONDRESSSS\n"
                         + "</body>"
                         + "</html>";
-                out.println(outputLine);
+            }else {
+
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>"
+                        + "<html>"
+                        + "<head>"
+                        + "<meta charset=\"UTF-8\">"
+                        + "<title>Title of the document</title>\n"
+                        + "</head>"
+                        + "<body>"
+                        + "My Web Site"
+                        + "</body>"
+                        + "</html>";
             }
-            outputLine = "HTTP/1.1 200 OK\r\n"
-                    + "Content-Type: text/html\r\n"
-                    + "\r\n"
-                    + "<!DOCTYPE html>"
-                    + "<html>"
-                    + "<head>"
-                    + "<meta charset=\"UTF-8\">"
-                    + "<title>Title of the document</title>\n"
-                    + "</head>"
-                    + "<body>"
-                    + "My Web Site"
-                    + "</body>"
-                    + "</html>";
             out.println(outputLine);
 
             out.close();
