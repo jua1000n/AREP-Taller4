@@ -15,7 +15,10 @@ public class HttpServer {
             System.exit(1);
         }
         Socket clientSocket = null;
+
         boolean running = true;
+
+
         while(running) {
             try {
                 System.out.println("Listo para recibir ...");
@@ -29,25 +32,64 @@ public class HttpServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String inputLine, outputLine;
 
+            boolean primerLinea = true;
+            String file = "";
+
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Received: " + inputLine);
+                if (primerLinea) {
+                    file = inputLine.split(" ")[1];
+                    System.out.println("File" + file);
+                    primerLinea = false;
+                }
                 if (!in.ready()) {
                     break;
                 }
             }
-            outputLine = "HTTP/1.1 200 OK\r\n"
-                    + "Content-Type: text/html\r\n"
-                    + "\r\n"
-                    + "<!DOCTYPE html>"
-                    + "<html>"
-                    + "<head>"
-                    + "<meta charset=\"UTF-8\">"
-                    + "<title>Title of the document</title>\n"
-                    + "</head>"
-                    + "<body>"
-                    + "My Web Site"
-                    + "</body>"
-                    + "</html>";
+            if (file.startsWith("/clima")) {
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>"
+                        + "<html>"
+                        + "<head>"
+                        + "<meta charset=\"UTF-8\">"
+                        + "<title>Title of the document</title>\n"
+                        + "</head>"
+                        + "<body>"
+                        + "Clima"
+                        + "</body>"
+                        + "</html>";
+            }else if(file.startsWith("/consulta")) {
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>"
+                        + "<html>"
+                        + "<head>"
+                        + "<meta charset=\"UTF-8\">"
+                        + "<title>Title of the document</title>\n"
+                        + "</head>"
+                        + "<body>"
+                        + "Consulta"
+                        + "</body>"
+                        + "</html>";
+            }
+            else {
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>"
+                        + "<html>"
+                        + "<head>"
+                        + "<meta charset=\"UTF-8\">"
+                        + "<title>Title of the document</title>\n"
+                        + "</head>"
+                        + "<body>"
+                        + "My Web Site"
+                        + "</body>"
+                        + "</html>";
+            }
             out.println(outputLine);
 
             out.close();
